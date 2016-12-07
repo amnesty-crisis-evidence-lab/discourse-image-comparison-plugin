@@ -20,6 +20,12 @@
 		float: left;
 		width: 50%;
 	}
+		/* clear float */
+	.image-comparison:after {
+	    content: '';
+	    display: block;
+	    clear: both;
+	}
 
 	/* create square container */
 	.image-comparison .img-before-div .square-container,
