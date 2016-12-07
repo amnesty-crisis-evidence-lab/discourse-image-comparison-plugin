@@ -5,6 +5,11 @@ function initializePlugin(api) {
     api.decorateCooked($elem => {
         //as discourse trim class name during adding content through REST API so we readd it here
         var beforeImageContainer = $elem.find('.x1y1.img-before').parent();
+            //in a post which is not image comparison
+        if (!beforeImageContainer.length || (beforeImageContainer.length == 0)) {
+            return;
+        }
+
         $(beforeImageContainer).addClass('img-before-div');
         var afterImageContainer = $elem.find('.x1y1.img-after').parent();
         $(afterImageContainer).addClass('img-after-div');
