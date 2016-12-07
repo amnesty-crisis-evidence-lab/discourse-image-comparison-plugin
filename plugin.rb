@@ -4,4 +4,4 @@
 # authors: Amnesty dev team
 
 register_asset 'stylesheets/style.scss'
-register_asset 'javascripts/q.min.js'
+#register_asset 'javascripts/q.min.js'
