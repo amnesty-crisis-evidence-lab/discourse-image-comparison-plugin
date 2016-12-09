@@ -16,8 +16,8 @@ function initializePlugin(api) {
         $(afterImageContainer).parent().addClass('image-comparison v1');
 
         var html = '<nav class="mobile-tab">' +
-                '<div class="before-label-mobile nav-item active" data-target="img-before-div"> Before </div>' +
-                '<div class="after-label-mobile nav-item" data-target="img-after-div"> After </div>' +
+                '<div class="before-label-mobile nav-item" data-target="img-before-div"> Before </div>' +
+                '<div class="after-label-mobile nav-item active" data-target="img-after-div"> After </div>' +
             '</nav>' +
             '<nav class="desktop-tab">' +
                 '<div class="before-label"> Before </div>' +
@@ -90,10 +90,8 @@ function initializePlugin(api) {
                 drawSmallImages(smallAfterCanvasContext, afterImages);
             });
 
-            console.log('size:' + size);
             init(beforeImageSources, beforeImages, smallBeforeCanvasContext, bigBeforeCanvasContext);
             init(afterImageSources, afterImages, smallAfterCanvasContext, bigAfterCanvasContext);
-            console.log('size:' + size);
 
             //mobile and desktop small view port
             navOnMobile();
@@ -301,17 +299,29 @@ function initializePlugin(api) {
             }
 
             function drawSmallImages(context, images) {
-                context.drawImage(images[0], 0, 0, tileRealSize, tileRealSize, 0, 0, tileViewSize, tileViewSize);
-                context.drawImage(images[1], 0, 0, tileRealSize, tileRealSize, tileViewSize, 0, tileViewSize, tileViewSize);
-                context.drawImage(images[2], 0, 0, tileRealSize, tileRealSize, 0, tileViewSize, tileViewSize, tileViewSize);
-                context.drawImage(images[3], 0, 0, tileRealSize, tileRealSize, tileViewSize, tileViewSize, tileViewSize, tileViewSize);         
+                if (images.length == 4) {
+                    context.drawImage(images[0], 0, 0, tileRealSize, tileRealSize, 0, 0, tileViewSize, tileViewSize);
+                    context.drawImage(images[1], 0, 0, tileRealSize, tileRealSize, tileViewSize, 0, tileViewSize, tileViewSize);
+                    context.drawImage(images[2], 0, 0, tileRealSize, tileRealSize, 0, tileViewSize, tileViewSize, tileViewSize);
+                    context.drawImage(images[3], 0, 0, tileRealSize, tileRealSize, tileViewSize, tileViewSize, tileViewSize, tileViewSize);                    
+                } else if (images.length == 1) {
+                    context.drawImage(images[0], 0, 0, tileRealSize * 2, tileRealSize * 2, 0, 0, tileViewSize * 2, tileViewSize * 2);
+                } else {
+                    console.error('Number of child images for before or after image should be 1 or 4')
+                }
             }
 
             function drawBigImages(context, images) {
-                context.drawImage(images[0], 0, 0, tileRealSize, tileRealSize, 0, 0, tileRealSize, tileRealSize);
-                context.drawImage(images[1], 0, 0, tileRealSize, tileRealSize, tileRealSize, 0, tileRealSize, tileRealSize);
-                context.drawImage(images[2], 0, 0, tileRealSize, tileRealSize, 0, tileRealSize, tileRealSize, tileRealSize);
-                context.drawImage(images[3], 0, 0, tileRealSize, tileRealSize, tileRealSize, tileRealSize, tileRealSize, tileRealSize);
+                if (images.length == 4) {
+                    context.drawImage(images[0], 0, 0, tileRealSize, tileRealSize, 0, 0, tileRealSize, tileRealSize);
+                    context.drawImage(images[1], 0, 0, tileRealSize, tileRealSize, tileRealSize, 0, tileRealSize, tileRealSize);
+                    context.drawImage(images[2], 0, 0, tileRealSize, tileRealSize, 0, tileRealSize, tileRealSize, tileRealSize);
+                    context.drawImage(images[3], 0, 0, tileRealSize, tileRealSize, tileRealSize, tileRealSize, tileRealSize, tileRealSize);
+                } else if (images.length == 1) {
+                    context.drawImage(images[0], 0, 0, tileRealSize * 2, tileRealSize * 2, 0, 0, tileRealSize * 2, tileRealSize * 2);
+                } else {
+                    console.error('Number of child images for before or after image should be 1 or 4')
+                }                
             }
 
             function navOnMobile()
@@ -339,7 +349,7 @@ function initializePlugin(api) {
                     return true;
                 }
                 return false;
-            }            
+            }
         }        
 
     });
