@@ -4,14 +4,23 @@ import showModal from 'discourse/lib/show-modal';
 function initializePlugin(api) {
     api.decorateCooked($elem => {
         //as discourse trim class name during adding content through REST API so we readd it here
-        var beforeImageContainer = $elem.find('.x1y1.img-before').parent();
-            //in a post which is not image comparison
-        if (!beforeImageContainer.length || (beforeImageContainer.length == 0)) {
+
+            //detect if we are in a post which include image comparison
+        if ( $elem.find('.img-before').length == 0 ) {
             return;
         }
 
+            //dom and js var map : 
+            //<div class="cooked">//$elem
+            //    <div>
+            //       <div>image content</div>//beforeImageContainer
+            //       <div>image content</div>//afterImageContainer
+            //    </div>
+
+        var beforeImageContainer = $elem.children().first().children().first();
+        var afterImageContainer = $elem.children().first().children().last();
+
         $(beforeImageContainer).addClass('img-before-div');
-        var afterImageContainer = $elem.find('.x1y1.img-after').parent();
         $(afterImageContainer).addClass('img-after-div');
         $(afterImageContainer).parent().addClass('image-comparison v1');
 
@@ -40,21 +49,19 @@ function initializePlugin(api) {
             extractImageSource(beforeImageSources, beforeImageContainer);
             extractImageSource(afterImageSources, afterImageContainer);
 
-            $(beforeImageContainer).find('img').hide();
-            $(afterImageContainer).find('img').hide();
+            //clean before discourse's content
+            $(beforeImageContainer).empty();
+            $(afterImageContainer).empty();
 
             //init canvas to render images
-            var html = "<div class='square-container'>" + 
+            var html = '<!-- to enable zoom, images has been replaced with canvas -->' +
                     '<canvas id="smallBeforeCanvas">Your browser does not support the HTML5 canvas tag.</canvas>' +
-                    '<canvas id="bigBeforeCanvas" style="display:none">Your browser does not support the HTML5 canvas tag.</canvas>' +
-                "</div>";
+                    '<canvas id="bigBeforeCanvas" style="display:none">Your browser does not support the HTML5 canvas tag.</canvas>';
             $(beforeImageContainer).append(html);
 
-                //squarec-container help to keep canvas in square shape during resize
-            html = "<div class='square-container'>" + 
+            html = '<!-- to enable zoom, images has been replaced with canvas -->' +
                     '<canvas id="smallAfterCanvas">Your browser does not support the HTML5 canvas tag.</canvas>' +
-                    '<canvas id="bigAfterCanvas" style="display:none">Your browser does not support the HTML5 canvas tag.</canvas>' +
-                "</div>";
+                    '<canvas id="bigAfterCanvas" style="display:none">Your browser does not support the HTML5 canvas tag.</canvas>';
             $(afterImageContainer).append(html);
 
             var beforeImages = [];
