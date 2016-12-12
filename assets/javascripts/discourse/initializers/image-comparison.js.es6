@@ -55,11 +55,13 @@ function initializePlugin(api) {
 
             //init canvas to render images
             var html = '<!-- to enable zoom, images has been replaced with canvas -->' +
+                    '<i class="fa fa-search-plus icon-zoom-in"></i>' +
                     '<canvas id="smallBeforeCanvas">Your browser does not support the HTML5 canvas tag.</canvas>' +
                     '<canvas id="bigBeforeCanvas" style="display:none">Your browser does not support the HTML5 canvas tag.</canvas>';
             $(beforeImageContainer).append(html);
 
             html = '<!-- to enable zoom, images has been replaced with canvas -->' +
+                    '<i class="fa fa-search-plus icon-zoom-in"></i>' +
                     '<canvas id="smallAfterCanvas">Your browser does not support the HTML5 canvas tag.</canvas>' +
                     '<canvas id="bigAfterCanvas" style="display:none">Your browser does not support the HTML5 canvas tag.</canvas>';
             $(afterImageContainer).append(html);
@@ -175,6 +177,7 @@ function initializePlugin(api) {
                     if (mouseOutAfter) {
                         drawSmallImages(smallBeforeCanvasContext, beforeImages);
                         drawSmallImages(smallAfterCanvasContext, afterImages);
+                        $elem.find('.icon-zoom-in').show();
                     }
                 });
                 $elem.find('#smallAfterCanvas').mouseout(function(){
@@ -182,6 +185,7 @@ function initializePlugin(api) {
                     if (mouseOutBefore) {
                         drawSmallImages(smallBeforeCanvasContext, beforeImages);
                         drawSmallImages(smallAfterCanvasContext, afterImages);
+                        $elem.find('.icon-zoom-in').show();
                     }
                 });
 
@@ -198,6 +202,8 @@ function initializePlugin(api) {
 
                     zoom(smallBeforeCanvas, bigBeforeCanvas, beforeImages, x, y);
                     zoom(smallAfterCanvas, bigAfterCanvas, afterImages, x, y);
+
+                    $elem.find('.icon-zoom-in').hide();
                 });
 
                 $elem.find('#smallAfterCanvas').mousemove(function(evt){
@@ -213,6 +219,8 @@ function initializePlugin(api) {
 
                     zoom(smallBeforeCanvas, bigBeforeCanvas, beforeImages, x, y);
                     zoom(smallAfterCanvas, bigAfterCanvas, afterImages, x, y);
+
+                    $elem.find('.icon-zoom-in').hide();
                 });                
             }
 
