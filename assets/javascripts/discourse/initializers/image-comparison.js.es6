@@ -288,11 +288,11 @@ function initializePlugin(api) {
             function init(imageSources, images, smallContext, bigContext) {
                 //create scope for promise
                 function imageOnload(image) {
-                    var deferred = Q.defer();
+                    var deferred = $.Deferred();
                     image.onload = function() {
-                        deferred.resolve('a');
+                        deferred.resolve();
                     };
-                    return deferred.promise;
+                    return deferred.promise();
                 }
 
                 var promises = [];
@@ -304,13 +304,29 @@ function initializePlugin(api) {
                     images.push(image);
                 } 
 
-                Q.all(promises)
-                .then(function(){
-                    drawSmallImages(smallContext, images);
-                    drawBigImages(bigContext, images);
-                },function(){
-                    console.error("Error in loading images");
-                });
+                // as jquery.when() doesn't support array of promise so we pass as separate argument now
+                    // after image include 4 smaller images
+                if (promises.length == 4) {
+                    $.when(promises[0], promises[1], promises[2], promises[3])
+                    .then(function(){
+                        drawSmallImages(smallContext, images);
+                        drawBigImages(bigContext, images);
+                    }, function(){
+                        console.error("Error in loading images");
+                    });
+                }
+                // before image include 1 image
+                else if (promises.length == 1) {
+                    $.when(promises[0])
+                    .then(function(){
+                        drawSmallImages(smallContext, images);
+                        drawBigImages(bigContext, images);
+                    }, function(){
+                        console.error("Error in loading images");
+                    });                    
+                } else {
+                    console.error('Number of child images for before or after image should be 1 or 4')
+                }
             }
 
             function drawSmallImages(context, images) {
