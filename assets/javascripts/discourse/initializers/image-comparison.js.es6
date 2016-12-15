@@ -177,7 +177,10 @@ function initializePlugin(api) {
                     if (mouseOutAfter) {
                         drawSmallImages(smallBeforeCanvasContext, beforeImages);
                         drawSmallImages(smallAfterCanvasContext, afterImages);
-                        $elem.find('.icon-zoom-in').show();
+
+                        if (zoomLevel > 1) {
+                            $elem.find('.icon-zoom-in').show();
+                        }
                     }
                 });
                 $elem.find('#smallAfterCanvas').mouseout(function(){
@@ -185,7 +188,10 @@ function initializePlugin(api) {
                     if (mouseOutBefore) {
                         drawSmallImages(smallBeforeCanvasContext, beforeImages);
                         drawSmallImages(smallAfterCanvasContext, afterImages);
-                        $elem.find('.icon-zoom-in').show();
+
+                        if (zoomLevel > 1) {
+                            $elem.find('.icon-zoom-in').show();
+                        }
                     }
                 });
 
@@ -226,7 +232,7 @@ function initializePlugin(api) {
 
             /* calculate size of canvas, zoom ratio, zoom viewport width when resize window*/
             function resize() {
-                size = $elem.find('.img-before-div').first().width();
+                size = $elem.find('.image-comparison').first().width();
                 //looks like node hasn't attached to dom yet so we don't have dimension now
                 //so let use size of dom container which we know already existed
                 //this technique may be broken if they change the dom class name
@@ -247,7 +253,14 @@ function initializePlugin(api) {
                 zoomLevel = tileRealSize/tileViewSize;
                 zoomWidth = tileViewSize;
                 $(smallBeforeCanvas).attr('width', size).attr('height', size);
-                $(smallAfterCanvas).attr('width', size).attr('height', size);                
+                $(smallAfterCanvas).attr('width', size).attr('height', size);
+
+                //don't zoom icon when thumbnail image has the same size as original image
+                if (zoomLevel <= 1) {
+                    $elem.find('.icon-zoom-in').hide();
+                } else {
+                    $elem.find('.icon-zoom-in').show();
+                }     
             }
 
 
