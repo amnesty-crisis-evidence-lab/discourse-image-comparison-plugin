@@ -93,7 +93,7 @@ function initializePlugin(api) {
             $(bigBeforeCanvas).attr('width', size * 2).attr('height', size * 2);            
             $(bigAfterCanvas).attr('width', size * 2).attr('height', size * 2);
 
-            $(window).on('resize', function() {
+            $(window).on('resize orientationchange', function() {
                 resize();
                 drawSmallImages(smallBeforeCanvasContext, beforeImages);
                 drawSmallImages(smallAfterCanvasContext, afterImages);
@@ -226,17 +226,23 @@ function initializePlugin(api) {
 
             /* calculate size of canvas, zoom ratio, zoom viewport width when resize window*/
             function resize() {
-                size = $elem.find('.square-container').first().width();
-                //looks like node has attach to dom yet so we don't have dimension now
-                //then use predefine one
+                size = $elem.find('.img-before-div').first().width();
+                //looks like node hasn't attached to dom yet so we don't have dimension now
+                //so let use size of dom container which we know already existed
+                //this technique may be broken if they change the dom class name
                 //Fixme: need to get size after render in dom
                 if (!(size > 0)) {
+                    var discourseContainerWidth = $('.posts').first().width();
                     if (isMobile()) {
-                        size = 299;
+                        size = discourseContainerWidth;
                     } else {
-                        size = 380;    
+                        if ((discourseContainerWidth / 2) < 380 ) {
+                            size = discourseContainerWidth / 2;
+                        } else {
+                            size = 380;    
+                        }                        
                     }                    
-                }                
+                }
                 tileViewSize = size/2;
                 zoomLevel = tileRealSize/tileViewSize;
                 zoomWidth = tileViewSize;
