@@ -52,32 +52,31 @@
 }
 
 /* before/after label */
-.image-comparison .before-label {
-    height: 80px;
+.image-comparison .before-label,
+.image-comparison .after-label {
     position: absolute;
-    top: 0px;
-    left: -10px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     color: white;
     background-color: rgba(0, 0, 0, 0.88);
     letter-spacing: 2px;
-    writing-mode: vertical-rl;
-    transform-origin: bottom left;
-    transform: translateY(-100%) rotate(180deg);
-    text-align: center;
+    text-align: center;    
+}
+.image-comparison .before-label {
+    padding-left: 20px;
+    padding-right: 20px;
+    top: 0px;
+    left: 0px;    
+    transform-origin: top left;
+    transform: rotate(-90deg) translateY(-100%)  translateX(-100%);
 }
 .image-comparison .after-label {
-    height: 80px;
-    position: absolute;
-    top: 0;
-    right: -18px;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.88);
-    letter-spacing: 2px;
-    writing-mode: vertical-rl;
-    z-index: 999;
-    text-align: center;
+    /* after text is smaller than before text so we need more padding so before/after has same width */
+    padding-left: 27px;
+    padding-right: 27px;
+
+    top: 0px;
+    right: 0px;
+    transform: rotate(90deg) translateY(-100%) translateX(100%);
+    transform-origin: top right;
 }
