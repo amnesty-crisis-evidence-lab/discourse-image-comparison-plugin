@@ -1,0 +1,51 @@
+/* Image comparison */
+/* ---------------- */
+
+@media screen and (max-width: 991px) {
+	/* hide desktop navigation */
+	.image-comparison nav.desktop-tab {
+		display: none;
+	}
+
+	/* by default, we show after image and hide before image*/
+	.image-comparison .img-before-div {
+		display: none;	
+	}
+
+	/* when user navigate between after/before image, add visible class to make them visible */
+	.image-comparison .img-before-div.visible,
+	.image-comparison .img-after-div.visible {
+		display: block;
+	}
+
+
+	/* nav item horizontal align */
+	.image-comparison nav.mobile-tab .nav-item {
+		padding: 10px 15px;
+    	width: 50%;
+    	display: block;
+    	float: left;
+    	box-sizing: border-box;
+	}	
+	.image-comparison nav.mobile-tab:after {
+	    content: '';
+	    display: block;
+	    clear: both;
+	}
+
+	/* nav item style */
+	.image-comparison nav.mobile-tab .nav-item {
+		text-align: center;
+    	text-decoration: none;
+
+    	color: white;
+    	background-color: black;
+
+    	cursor: pointer;
+	}
+
+	.image-comparison nav.mobile-tab .nav-item.active{
+		color: black;
+    	background-color: yellow;
+	}
+}
