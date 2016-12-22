@@ -94,7 +94,8 @@ function initializePlugin(api) {
             $(bigAfterCanvas).attr('width', size * 2).attr('height', size * 2);
 
             $(window).on('resize orientationchange', function() {
-                resize();
+                var newSize = $elem.find('.img-before-div').first().width();
+                resize(newSize);
                 drawSmallImages(smallBeforeCanvasContext, beforeImages);
                 drawSmallImages(smallAfterCanvasContext, afterImages);
             });
@@ -231,13 +232,15 @@ function initializePlugin(api) {
             }
 
             /* calculate size of canvas, zoom ratio, zoom viewport width when resize window*/
-            function resize() {
-                size = $elem.find('.image-comparison').first().width();
+            function resize(newSize) {
+                if (newSize) {
+                    size = newSize;
+                } 
                 //looks like node hasn't attached to dom yet so we don't have dimension now
                 //so let use size of dom container which we know already existed
                 //this technique may be broken if they change the dom class name
                 //Fixme: need to get size after render in dom
-                if (!(size > 0)) {
+                else {
                     var discourseContainerWidth = $('.posts').first().width();
                     if (isMobile()) {
                         size = discourseContainerWidth;
