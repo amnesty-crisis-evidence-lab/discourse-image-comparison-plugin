@@ -270,7 +270,11 @@ function initializePlugin(api) {
                     console.error('There is no before images');
                 }
                 $.each($(imageContainer).find('img'), function(index, value){
-                    imageSources.push($(value).attr('src'));
+                    var imageSrc = $(value).attr('src');
+                    if (imageSrc.indexOf('http://') === 0) {
+                        imageSrc = imageSrc.replace('http://', 'https://');
+                    }
+                    imageSources.push(imageSrc);
                 });
 
             }
