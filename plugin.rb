@@ -6,3 +6,4 @@
 register_asset 'stylesheets/common.scss'
 register_asset 'stylesheets/mobile.scss', :mobile
 register_asset 'stylesheets/desktop.scss', :desktop
+register_asset 'javascripts/bowser.js', :server_side

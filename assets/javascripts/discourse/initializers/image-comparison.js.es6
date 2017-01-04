@@ -105,9 +105,10 @@ function initializePlugin(api) {
 
             //mobile and desktop small view port
             navOnMobile();
-            
-            if (isMobile()) {
+            if (bowser.mobile) {
                 handleEventOnMobile();      
+            } else if (bowser.tablet) {
+                handleEventOnDesktop();
             } else {
                 handleEventOnDesktop();
             }
@@ -242,8 +243,18 @@ function initializePlugin(api) {
                 //Fixme: need to get size after render in dom
                 else {
                     var discourseContainerWidth = $('.posts').first().width();
-                    if (isMobile()) {
+                    if (bowser.mobile) {
                         size = discourseContainerWidth;
+                    } else if (bowser.tablet) {
+                        //current issue: doesn't show zoom correctly
+                        //on tablet, try to guess the best close container width
+                        //so we use avatar width and total width percent in calculation
+                        discourseContainerWidth = (discourseContainerWidth - 45) * 0.75;// - avatar width) * 75%
+                        if ((discourseContainerWidth / 2) < 380 ) {
+                            size = discourseContainerWidth / 2;
+                        } else {
+                            size = 380;    
+                        }                        
                     } else {
                         if ((discourseContainerWidth / 2) < 380 ) {
                             size = discourseContainerWidth / 2;
@@ -407,7 +418,9 @@ function initializePlugin(api) {
                 }
                 return false;
             }
-        }        
+        }
+
+        console.log('$elem.width()2:' + $elem.width());        
 
     });
 }
